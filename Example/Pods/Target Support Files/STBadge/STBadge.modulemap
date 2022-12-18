@@ -1,0 +1,6 @@
+framework module STBadge {
+  umbrella header "STBadge-umbrella.h"
+
+  export *
+  module * { export * }
+}

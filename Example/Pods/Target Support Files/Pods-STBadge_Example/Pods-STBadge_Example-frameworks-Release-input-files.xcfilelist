@@ -1,0 +1,3 @@
+${PODS_ROOT}/Target Support Files/Pods-STBadge_Example/Pods-STBadge_Example-frameworks.sh
+${BUILT_PRODUCTS_DIR}/STBadge/STBadge.framework
+${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework
