@@ -12,7 +12,7 @@
 import UIKit
 
 public struct STBadgeConfiguration {
-    
+    /// 默认配置，外部可以扩展一些其他的
     static var `default` = STBadgeConfiguration()
     
     public var backgroundColor:UIColor
@@ -41,7 +41,7 @@ public struct STBadgeConfiguration {
         self.layout = layout
     }
     
-    // 对齐方式
+    /// 对齐方式
     public enum STBadgeLayoutEnum {
         // 右上对右上
         case topRightToTopRight

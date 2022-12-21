@@ -11,7 +11,7 @@
 
 import UIKit
 
-class STBadgeView: UIView {
+public class STBadgeView: UIView {
     
     private lazy var imageView = {
         let imageView = UIImageView(frame: CGRect.zero)
@@ -28,6 +28,8 @@ class STBadgeView: UIView {
     
     private var config = STBadgeConfiguration()
     
+    public private(set) var badgeValue:String?
+    
     init() {
         super.init(frame: .zero)
         bindProperty()
@@ -38,7 +40,7 @@ class STBadgeView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         imageView.layer.cornerRadius = imageView.bounds.size.height / 2.0
     }
@@ -65,7 +67,9 @@ class STBadgeView: UIView {
         imageView.backgroundColor = config.backgroundColor
     }
     
-    public func updateConfig(_ config:STBadgeConfiguration) {
+    /// 配置
+    @discardableResult
+    public func config(_ config:STBadgeConfiguration) -> Self {
         self.config = config
         self.bindProperty()
         imageView.snp.updateConstraints { make in
@@ -76,10 +80,14 @@ class STBadgeView: UIView {
             make.left.equalTo(config.textMargin)
             make.right.equalTo(-config.textMargin)
         }
+        return self
     }
-    
-    func bindData(_ value:String?) {
+    /// 设置值
+    @discardableResult
+    public func setData(_ value:String?) -> Self {
+        self.badgeValue = value
         textLabel.text = value
+        return self
     }
     
 }

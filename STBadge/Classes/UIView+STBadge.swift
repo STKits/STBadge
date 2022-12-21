@@ -25,13 +25,92 @@ public extension NSObjectProtocol {
     }
 }
 
-private struct AssociatedKeys {
-    static var badgeView   = "STBadgeViewKey"
-    static var badgeConfig = "STBadgeConfigKey"
+extension ST where Base: UIView {
+    
+    var addView:UIView {
+        return self.base
+    }
+    
+    var badgeView:STBadgeView {
+        return self.base.stBadgeView
+    }
+    
+    var badgeConfig: STBadgeConfiguration {
+        return self.base.stBadgeConfig
+    }
+    
+    @discardableResult
+    public func config(_ value:STBadgeConfiguration) -> Self {
+        self.base.stBadgeConfig = value
+        return self
+    }
+    
+    @discardableResult
+    public func layout(_ value:STBadgeConfiguration.STBadgeLayoutEnum) -> Self {
+        self.base.stBadgeConfig.layout = value
+        return self
+    }
+    
+    @discardableResult
+    public func offset(_ value:UIOffset) -> Self {
+        self.base.stBadgeConfig.offset = value
+        return self
+    }
+    
+    @discardableResult
+    public func height(_ value:CGFloat) -> Self {
+        self.base.stBadgeConfig.height = value
+        return self
+    }
+    
+    public func showBadge(value:String?) {
+        self.badgeView.isHidden = false
+        if badgeView.superview == nil {
+            addView.addSubview(badgeView)
+        }
+        
+        // 赋值
+        self.badgeView.setData(value)
+        
+        // 布局
+        let config = badgeConfig
+        self.badgeView.config(config)
+        let offset = config.offset
+        
+        switch config.layout {
+        case .topRightToTopRight:
+            addView.backgroundColor = .yellow
+            badgeView.snp.remakeConstraints { make in
+                make.top.equalToSuperview().offset(offset.vertical)
+                make.right.equalToSuperview().offset(offset.horizontal)
+            }
+        case .leftBottomToTopRight:
+            badgeView.snp.remakeConstraints { make in
+                make.left.equalTo(addView.snp.right).offset(offset.horizontal)
+                make.bottom.equalTo(addView.snp.top).offset(offset.vertical)
+            }
+        case .centerToTopRight:
+            badgeView.snp.remakeConstraints { make in
+                make.centerX.equalTo(addView.snp.right).offset(offset.horizontal)
+                make.centerY.equalTo(addView.snp.top).offset(offset.vertical)
+            }
+        }
+    }
+    
+    public func hideBadge() {
+        self.badgeView.isHidden = true
+    }
 }
 
-private extension UIView {
-    var badgeView: STBadgeView {
+/// 属性存到view里
+extension UIView {
+    
+    struct AssociatedKeys {
+        static var badgeView   = "STBadgeViewKey"
+        static var badgeConfig = "STBadgeConfigKey"
+    }
+    
+    var stBadgeView: STBadgeView {
         get {
             if let view = objc_getAssociatedObject(self, &AssociatedKeys.badgeView) as? STBadgeView {
                 return view
@@ -45,7 +124,7 @@ private extension UIView {
         }
     }
     
-    var badgeConfig: STBadgeConfiguration {
+    var stBadgeConfig: STBadgeConfiguration {
         get {
             if let config = objc_getAssociatedObject(self, &AssociatedKeys.badgeConfig) as? STBadgeConfiguration {
                 return config
@@ -57,83 +136,5 @@ private extension UIView {
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.badgeConfig, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
-    }
-}
-
-extension ST where Base: UIView {
-    
-    var addView:UIView {
-        return self.base
-    }
-    
-    var badgeView:STBadgeView {
-        return self.base.badgeView
-    }
-    
-    var badgeConfig: STBadgeConfiguration {
-        return self.base.badgeConfig
-    }
-   
-    @discardableResult
-    public func config(_ value:STBadgeConfiguration) -> Self {
-        self.base.badgeConfig = value
-        return self
-    }
-    
-    @discardableResult
-    public func layout(_ value:STBadgeConfiguration.STBadgeLayoutEnum) -> Self {
-        self.base.badgeConfig.layout = value
-        return self
-    }
-    
-    @discardableResult
-    public func offset(_ value:UIOffset) -> Self {
-        self.base.badgeConfig.offset = value
-        return self
-    }
-    
-    @discardableResult
-    public func height(_ value:CGFloat) -> Self {
-        self.base.badgeConfig.height = value
-        return self
-    }
-    
-    public func showBadge(value:String?) {
-        self.badgeView.isHidden = false
-        if badgeView.superview == nil {
-            addView.addSubview(badgeView)
-        }
-        
-        // 赋值
-        self.badgeView.bindData(value)
-        
-        // 布局
-        let config = badgeConfig
-        self.badgeView.updateConfig(config)
-        let offset = config.offset
-        
-        if config.layout == .topRightToTopRight {
-            addView.backgroundColor = .yellow
-            badgeView.snp.remakeConstraints { make in
-                make.top.equalToSuperview().offset(offset.vertical)
-                make.right.equalToSuperview().offset(offset.horizontal)
-            }
-        } else if config.layout == .leftBottomToTopRight {
-            badgeView.snp.remakeConstraints { make in
-                make.left.equalTo(addView.snp.right).offset(offset.horizontal)
-                make.bottom.equalTo(addView.snp.top).offset(offset.vertical)
-            }
-        } else if config.layout == .centerToTopRight {
-            badgeView.snp.remakeConstraints { make in
-                make.centerX.equalTo(addView.snp.right).offset(offset.horizontal)
-                make.centerY.equalTo(addView.snp.top).offset(offset.vertical)
-            }
-        }
-        
-        
-    }
-    
-    public func hideBadge() {
-        self.badgeView.isHidden = true
     }
 }
