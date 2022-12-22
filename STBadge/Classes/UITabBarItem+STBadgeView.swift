@@ -77,11 +77,11 @@ private extension UITabBarItem {
     
     @objc func swizzledSetView(_ view:UIView) {
         swizzledSetView(view)
-        guard let imageView = view.value(forKey: "_imageView")  as? UIImageView else {
-            return
-        }
-        imageView.st.config(self.stBadgeConfig ?? view.stBadgeConfig)
-        imageView.st.showBadge(value: self.stBadgeString)
+//        guard let imageView = view.value(forKey: "_imageView")  as? UIImageView else {
+//            return
+//        }
+//        imageView.st.config(self.stBadgeConfig ?? view.stBadgeConfig)
+//        imageView.st.showBadge(value: self.stBadgeString)
     }
     
 }
