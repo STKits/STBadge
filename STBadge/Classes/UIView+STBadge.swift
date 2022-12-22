@@ -79,7 +79,6 @@ extension ST where Base: UIView {
         
         switch config.layout {
         case .topRightToTopRight:
-            addView.backgroundColor = .yellow
             badgeView.snp.remakeConstraints { make in
                 make.top.equalToSuperview().offset(offset.vertical)
                 make.right.equalToSuperview().offset(offset.horizontal)
