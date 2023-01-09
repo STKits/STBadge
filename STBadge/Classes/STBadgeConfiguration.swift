@@ -43,7 +43,7 @@ public struct STBadgeConfiguration {
         self.textMargin         = textMargin
         self.offset             = offset
         self.layout             = layout
-        self.maxNumber          = nil
+        self.maxNumber          = maxNumber
     }
     
     /// 对齐方式
