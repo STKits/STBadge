@@ -2,7 +2,7 @@
 //  STBadgeConfiguration.swift
 //  STBadge
 //
-//  Author: yyb 
+//  Author: yyb
 //  Email:  cnjsyyb@163.com
 //  Date:   2022/12/18
 //
@@ -25,20 +25,25 @@ public struct STBadgeConfiguration {
     
     public var layout:STBadgeLayoutEnum = .topRightToTopRight
     
+    /// 最大数，仅仅是数字时有效，比如 超过99显示99+, 可后续通过numberStringFormatterClosure处理
+    public var maxNumber:Int?
+    
     public init(backgroundColor: UIColor = UIColor.red,
                 font: UIFont? = UIFont.systemFont(ofSize: 12),
                 textColor: UIColor? = UIColor.white,
                 height: CGFloat = 10,
                 textMargin: CGFloat = 4.5,
                 offset: UIOffset = .zero,
-                layout: STBadgeLayoutEnum = .centerToTopRight) {
-        self.backgroundColor = backgroundColor
-        self.font = font
-        self.textColor = textColor
-        self.height = height
-        self.textMargin = textMargin
-        self.offset = offset
-        self.layout = layout
+                layout: STBadgeLayoutEnum = .centerToTopRight,
+                maxNumber: Int? = nil) {
+        self.backgroundColor    = backgroundColor
+        self.font               = font
+        self.textColor          = textColor
+        self.height             = height
+        self.textMargin         = textMargin
+        self.offset             = offset
+        self.layout             = layout
+        self.maxNumber          = nil
     }
     
     /// 对齐方式

@@ -2,7 +2,7 @@
 //  STBadgeView.swift
 //  STBadge
 //
-//  Author: yyb 
+//  Author: yyb
 //  Email:  cnjsyyb@163.com
 //  Date:   2022/12/18
 //
@@ -30,7 +30,7 @@ public class STBadgeView: UIView {
     
     public private(set) var badgeValue:String?
     
-    init() {
+    public init() {
         super.init(frame: .zero)
         bindProperty()
         bindView()
@@ -86,7 +86,12 @@ public class STBadgeView: UIView {
     @discardableResult
     public func setData(_ value:String?) -> Self {
         self.badgeValue = value
-        textLabel.text = value
+        if let maxNumber = self.config.maxNumber,
+           let value = value, let textNumber = Int(value)  {
+            textLabel.text = textNumber > maxNumber ? "\(maxNumber)+" : "\(textNumber)"
+        } else {
+            textLabel.text = value
+        }
         return self
     }
     
